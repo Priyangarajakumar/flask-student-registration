@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result</title>
+    <style>
+        * { box-sizing: border-box; }
+        body{
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: url("/static/predict_bg.jpg") no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .card{
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255,255,255,0.97);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+        h2{ color: #1a2980; margin-bottom: 20px; }
+        .info{ color: #555; margin: 8px 0; font-size: 15px; }
+        .result-badge{
+            font-size: 28px;
+            font-weight: bold;
+            padding: 18px;
+            border-radius: 14px;
+            margin: 20px 0;
+        }
+        .placed{ background: linear-gradient(135deg, #43e97b, #38f9d7); color: #063; }
+        .not-placed{ background: linear-gradient(135deg, #fa709a, #fee140); color: #822; }
+        .btn-link{
+            display: inline-block;
+            margin-top: 15px;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>🎯 Prediction Result</h2>
+    <p class="info">Model used: <b>{{ model_name }}</b></p>
+    <p class="info">CGPA: <b>{{ cgpa }}</b></p>
+    <div class="result-badge {{ 'placed' if result == 'PLACED' else 'not-placed' }}">
+        {{ result }}
+    </div>
+    <a href="/select-model" class="btn-link">Try Another Model</a>
+</div>
+</body>
+</html>

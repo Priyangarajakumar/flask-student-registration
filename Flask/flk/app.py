@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from ml_models import models, model_accuracies, model_display_names
 import json
 import os
 
 app = Flask(__name__)
-app.secret_key = "change_this_to_something_random"  # needed for sessions
+app.secret_key = "change_this_to_something_random"
 
 USERS_FILE = "users.json"
 
@@ -135,6 +136,30 @@ def submit():
         blood_group=blood_group,
         emergency_contact=emergency_contact,
         guardian_name=guardian_name
+    )
+
+@app.route('/select-model')
+def select_model():
+    return render_template(
+        'select_model.html',
+        accuracies=model_accuracies,
+        display_names=model_display_names
+    )
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    model_key = request.form.get('model')
+    cgpa = float(request.form.get('cgpa'))
+
+    chosen_model = models[model_key]
+    result = chosen_model.predict([[cgpa]])[0]
+    output = "PLACED" if result == 1 else "NOT PLACED"
+
+    return render_template(
+        'predict_result.html',
+        model_name=model_display_names[model_key],
+        cgpa=cgpa,
+        result=output
     )
 
 if __name__ == '__main__':
