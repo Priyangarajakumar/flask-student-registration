@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from ml_models import models, model_accuracies, model_display_names
+from ml_models import models, model_accuracies, model_display_names, linear_model
 import json
 import os
 
@@ -161,6 +161,21 @@ def predict():
         cgpa=cgpa,
         result=output
     )
+
+@app.route('/predict-package', methods=['GET', 'POST'])
+def predict_package():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    result = None
+    cgpa = None
+
+    if request.method == 'POST':
+        cgpa = float(request.form.get('cgpa'))
+        prediction = linear_model.predict([[cgpa]])[0]
+        result = round(prediction, 2)
+
+    return render_template('predict_package.html', result=result, cgpa=cgpa)
 
 if __name__ == '__main__':
     app.run(debug=True)

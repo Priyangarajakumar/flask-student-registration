@@ -5,21 +5,21 @@
     <style>
         * { box-sizing: border-box; }
         body{
-             font-family: 'Segoe UI', Arial, sans-serif;
-             margin: 0;
-             padding: 40px 20px;
-             min-height: 100vh;
-             background: url("/static/select_model_bg.jpg") no-repeat center center fixed;
-             background-size: cover;
-             display: flex;
-             justify-content: center;
-             align-items: flex-start;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            background: url("/static/select_model_bg.jpg") no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
         }
         .container{
             width: 100%;
-            max-width: 650px;
+            max-width: 1100px;
             background: rgba(255,255,255,0.97);
-            padding: 35px;
+            padding: 40px 45px;
             border-radius: 20px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.4);
             height: fit-content;
@@ -27,22 +27,54 @@
         h2{
             text-align: center;
             color: #1a2980;
-            margin-bottom: 25px;
-            font-size: 26px;
+            margin-bottom: 8px;
+            font-size: 28px;
         }
-        .cgpa-box{
+        .subtitle{
+            text-align: center;
+            color: #777;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .package-link{
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .package-link a{
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: #063;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .tabs{
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .tab-btn{
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: #e8ecff;
+            color: #333;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .tab-btn.active{ background: #1a2980; color: white; }
+        .tab-content{
+            display: none;
             background: #f0f4ff;
             padding: 20px;
             border-radius: 12px;
-            margin-bottom: 25px;
-            text-align: center;
+            margin-bottom: 30px;
         }
-        .cgpa-box label{
-            font-weight: bold;
-            color: #333;
-            display: block;
-            margin-bottom: 8px;
-        }
+        .tab-content.active{ display: block; }
+
         input[type=number]{
             width: 100%;
             padding: 12px;
@@ -51,82 +83,165 @@
             font-size: 16px;
             text-align: center;
         }
-        input[type=number]:focus{
-            outline: none;
-            border-color: #1a2980;
+        label{ font-weight: bold; color: #333; display: block; margin-bottom: 8px; }
+
+        .sample-btns{ display: flex; gap: 10px; }
+        .sample-btn{
+            flex: 1; padding: 12px; border: none; border-radius: 8px;
+            cursor: pointer; font-weight: bold; color: white;
+        }
+        .sample-high{ background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        .sample-low{ background: linear-gradient(135deg, #fa709a, #fee140); }
+
+        input[type=file]{
+            width: 100%; padding: 10px; border: 2px dashed #b0b8ff;
+            border-radius: 8px; background: white;
+        }
+        select{
+            width: 100%; padding: 10px; border-radius: 8px; border: 2px solid #d0d7ff;
+        }
+        .upload-btn{
+            width: 100%; margin-top: 12px; padding: 12px; border: none;
+            border-radius: 8px; background: #1a2980; color: white;
+            font-weight: bold; cursor: pointer;
+        }
+
+        .model-grid{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
         }
         .model-card{
             border-radius: 14px;
-            padding: 18px 20px;
-            margin-bottom: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 20px;
             color: white;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 130px;
         }
         .model-card:hover{ transform: translateY(-3px); }
-        .model-card h3{ margin: 0 0 6px 0; font-size: 18px; }
+        .model-card h3{ margin: 0 0 8px 0; font-size: 19px; }
+        .model-card p{ margin: 0 0 14px 0; font-size: 13px; opacity: 0.9; }
         .accuracy{
             background: rgba(255,255,255,0.25);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
+            padding: 4px 12px; border-radius: 20px;
+            font-size: 13px; font-weight: bold;
             display: inline-block;
+            width: fit-content;
+            margin-bottom: 14px;
         }
         .btn{
-            background: white;
-            color: #333;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
+            background: white; color: #333; border: none;
+            padding: 10px 18px; border-radius: 8px; cursor: pointer;
+            font-weight: bold; font-size: 14px; width: 100%;
         }
         .btn:hover{ background: #f0f0f0; }
 
-        
         .c1{ background: linear-gradient(135deg, #4facfe, #00f2fe); }
         .c2{ background: linear-gradient(135deg, #43e97b, #38f9d7); }
         .c3{ background: linear-gradient(135deg, #fa709a, #fee140); }
         .c4{ background: linear-gradient(135deg, #f6a13c, #ff5e62); }
         .c5{ background: linear-gradient(135deg, #667eea, #764ba2); }
         .c6{ background: linear-gradient(135deg, #30cfd0, #330867); }
+
+        @media (max-width: 700px){
+            .model-grid{ grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h2>🎓 Select a Model to Predict Placement</h2>
+    <p class="subtitle">Each model is trained on CGPA data — compare accuracy and pick one to predict</p>
 
-    <div class="cgpa-box">
+    <div style="text-align:center; margin-bottom:20px;">
+        <a href="/predict-package" style="background: linear-gradient(135deg, #43e97b, #38f9d7); color:#063; padding:10px 20px; border-radius:10px; text-decoration:none; font-weight:bold;">
+            💰 Also try: Predict Expected Package (Linear Regression)
+        </a>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('manual')">✍️ Manual Entry</button>
+        <button class="tab-btn" onclick="showTab('sample')">⚡ Load Sample</button>
+        <button class="tab-btn" onclick="showTab('csv')">📁 CSV Upload</button>
+    </div>
+
+    <div id="manual" class="tab-content active">
         <label>Enter CGPA</label>
         <input type="number" step="0.01" id="cgpa" placeholder="e.g. 7.5" required>
     </div>
 
-    {% set colors = ['c1','c2','c3','c4','c5','c6'] %}
-    {% for key, name in display_names.items() %}
-    <div class="model-card {{ colors[loop.index0 % 6] }}">
-        <div>
-            <h3>{{ name }}</h3>
-            <span class="accuracy">Accuracy: {{ accuracies[key] }}%</span>
+    <div id="sample" class="tab-content">
+        <label>Load a Sample Student</label>
+        <div class="sample-btns">
+            <button type="button" class="sample-btn sample-high" onclick="loadSample(9.2)">High CGPA (9.2)</button>
+            <button type="button" class="sample-btn sample-low" onclick="loadSample(5.4)">Low CGPA (5.4)</button>
         </div>
-        <form action="/predict" method="POST" onsubmit="return setCgpa(this)">
-            <input type="hidden" name="model" value="{{ key }}">
-            <input type="hidden" name="cgpa" class="cgpa-hidden">
-            <button type="submit" class="btn">Use this model</button>
+    </div>
+
+    <div id="csv" class="tab-content">
+        <label>Upload CSV (column: cgpa)</label>
+        <form action="/predict-csv" method="POST" enctype="multipart/form-data">
+            <input type="file" name="csv_file" accept=".csv" required>
+            <label style="margin-top:12px;">Choose a model for CSV predictions:</label>
+            <select name="model">
+                {% for key, name in display_names.items() %}
+                <option value="{{ key }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="upload-btn">Upload & Predict</button>
         </form>
     </div>
-    {% endfor %}
+
+    <div class="model-grid">
+        {% set colors = ['c1','c2','c3','c4','c5','c6'] %}
+        {% set descriptions = {
+            'logistic_regression': 'A linear model that is fast and easy to interpret for binary classification.',
+            'random_forest': 'Combines multiple decision trees for higher accuracy and robustness.',
+            'svm': 'Finds an optimal boundary to separate placed vs not-placed students.',
+            'decision_tree': 'Splits data using simple if-else rules, easy to visualize.',
+            'knn': 'Predicts based on the closest training examples in CGPA space.',
+            'naive_bayes': 'A probabilistic model based on Bayes theorem, fast and simple.'
+        } %}
+        {% for key, name in display_names.items() %}
+        <div class="model-card {{ colors[loop.index0 % 6] }}">
+            <div>
+                <h3>{{ name }}</h3>
+                <p>{{ descriptions[key] }}</p>
+                <span class="accuracy">Accuracy: {{ accuracies[key] }}%</span>
+            </div>
+            <form action="/predict" method="POST" onsubmit="return setCgpa(this)">
+                <input type="hidden" name="model" value="{{ key }}">
+                <input type="hidden" name="cgpa" class="cgpa-hidden">
+                <button type="submit" class="btn">Use this model</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 
 <script>
+function showTab(tab) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+    event.target.classList.add('active');
+}
+
+function loadSample(value) {
+    document.getElementById('cgpa').value = value;
+    showTab('manual');
+    document.querySelectorAll('.tab-btn')[0].classList.add('active');
+    document.querySelectorAll('.tab-btn')[1].classList.remove('active');
+}
+
 function setCgpa(form) {
     const cgpa = document.getElementById('cgpa').value;
     if (!cgpa) {
-        alert("Please enter CGPA first");
+        alert("Please enter or load a CGPA first");
         return false;
     }
     form.querySelector('.cgpa-hidden').value = cgpa;

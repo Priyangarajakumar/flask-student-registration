@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Predict Expected Package</title>
+    <style>
+        * { box-sizing: border-box; }
+        body{
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: url("/static/predict_bg.jpg") no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .card{
+            width: 100%;
+            max-width: 450px;
+            background: rgba(255,255,255,0.97);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+        h2{ color: #1a2980; margin-bottom: 10px; }
+        .subtitle{ color: #777; font-size: 14px; margin-bottom: 25px; }
+        label{ font-weight: bold; display: block; margin-bottom: 8px; text-align: left; }
+        input[type=number]{
+            width: 100%; padding: 12px; border: 2px solid #d0d7ff;
+            border-radius: 8px; font-size: 16px; text-align: center; margin-bottom: 20px;
+        }
+        .btn{
+            width: 100%; padding: 14px; border: none; border-radius: 10px;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white; font-weight: bold; font-size: 16px; cursor: pointer;
+        }
+        .result-badge{
+            margin-top: 25px; padding: 20px; border-radius: 14px;
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: #063; font-size: 24px; font-weight: bold;
+        }
+        .btn-link{
+            display: inline-block; margin-top: 20px; color: #1a2980; font-weight: bold; text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>💰 Predict Expected Package</h2>
+    <p class="subtitle">Using Linear Regression on CGPA</p>
+
+    <form method="POST">
+        <label>Enter CGPA</label>
+        <input type="number" step="0.01" name="cgpa" value="{{ cgpa if cgpa else '' }}" placeholder="e.g. 7.5" required>
+        <button type="submit" class="btn">Predict Package</button>
+    </form>
+
+    {% if result is not none %}
+    <div class="result-badge">
+        Estimated Package: ₹{{ result }} LPA
+    </div>
+    {% endif %}
+
+    <br>
+    <a href="/select-model" class="btn-link">← Back to Placement Prediction</a>
+</div>
+</body>
+</html>

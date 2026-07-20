@@ -50,3 +50,19 @@ model_display_names = {
     "knn": "K-Nearest Neighbors",
     "naive_bayes": "Naive Bayes",
 }
+
+# ---- Linear Regression: CGPA -> Expected Package (LPA) ----
+from sklearn.linear_model import LinearRegression
+X_reg = np.array([
+    [5.0], [5.5], [6.0], [6.5],
+    [7.0], [7.5], [8.0], [8.5],
+    [9.0], [9.5]
+])
+y_reg = np.array([
+    2.5, 3.0, 3.5, 4.2,
+    5.0, 6.0, 7.2, 8.5,
+    10.0, 12.0
+])
+
+linear_model = LinearRegression()
+linear_model.fit(X_reg, y_reg)
