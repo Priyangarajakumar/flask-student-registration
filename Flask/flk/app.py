@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from ml_models import models, model_accuracies, model_display_names, linear_model
+from ml_models import models, model_accuracies, model_display_names, linear_model, linear_r2
 import json
 import os
 
@@ -7,6 +7,20 @@ app = Flask(__name__)
 app.secret_key = "change_this_to_something_random"
 
 USERS_FILE = "users.json"
+
+STUDENTS_FILE = "students.json"
+
+def load_students():
+    if not os.path.exists(STUDENTS_FILE):
+        return []
+    with open(STUDENTS_FILE, "r") as f:
+        return json.load(f)
+
+def save_student(student_data):
+    students = load_students()
+    students.append(student_data)
+    with open(STUDENTS_FILE, "w") as f:
+        json.dump(students, f, indent=2)
 
 def load_users():
     if not os.path.exists(USERS_FILE):
@@ -56,6 +70,43 @@ def logout():
 
 @app.route('/')
 def home():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    students = load_students()
+    total_students = len(students)
+
+    avg_cgpa = 0
+    if total_students > 0:
+        cgpas = [float(s['cgpa']) for s in students if s.get('cgpa')]
+        avg_cgpa = round(sum(cgpas) / len(cgpas), 2) if cgpas else 0
+
+    departments = {}
+    for s in students:
+        dept = s.get('department') or 'Unknown'
+        departments[dept] = departments.get(dept, 0) + 1
+    top_department = max(departments, key=departments.get) if departments else "N/A"
+
+    return render_template(
+        'dashboard.html',
+        username=session.get('user'),
+        total_students=total_students,
+        avg_cgpa=avg_cgpa,
+        top_department=top_department,
+        accuracies=model_accuracies,
+        display_names=model_display_names,
+        linear_r2=linear_r2
+    )
+
+@app.route('/students')
+def view_students():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    students = load_students()
+    return render_template('students_list.html', students=students)
+
+@app.route('/register')
+def register():
     if 'user' not in session:
         return redirect(url_for('login'))
     return render_template('index.html')
@@ -111,6 +162,18 @@ def submit():
     print("Bloodgroup:", blood_group)
     print("Emergency Contact Number:", emergency_contact)
     print("Guardian Name:", guardian_name)
+
+    student_record = {
+        "name": name, "email": email, "mobile": mobile,
+        "alternate_mobile": alternate_mobile, "date_of_birth": date_of_birth,
+        "age": age, "gender": gender, "city": city, "state": state,
+        "country": country, "pincode": pincode, "qualification": qualification,
+        "college": college, "department": department, "course": course,
+        "year": year, "cgpa": cgpa, "languages": languages, "skills": skills,
+        "blood_group": blood_group, "emergency_contact": emergency_contact,
+        "guardian_name": guardian_name, "registered_by": session.get('user')
+    }
+    save_student(student_record)  
 
     return render_template(
         'result.html',

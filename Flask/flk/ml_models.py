@@ -53,6 +53,7 @@ model_display_names = {
 
 # ---- Linear Regression: CGPA -> Expected Package (LPA) ----
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
 X_reg = np.array([
     [5.0], [5.5], [6.0], [6.5],
     [7.0], [7.5], [8.0], [8.5],
@@ -66,3 +67,5 @@ y_reg = np.array([
 
 linear_model = LinearRegression()
 linear_model.fit(X_reg, y_reg)
+y_reg_pred = linear_model.predict(X_reg)
+linear_r2 = round(r2_score(y_reg, y_reg_pred), 3)

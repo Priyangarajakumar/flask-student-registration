@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Students</title>
+    <style>
+        * { box-sizing: border-box; }
+        body{
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            display: flex;
+            justify-content: center;
+        }
+        .container{
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(255,255,255,0.97);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            height: fit-content;
+        }
+        h2{ color: #1a2980; margin-bottom: 20px; }
+        table{ width: 100%; border-collapse: collapse; font-size: 13px; }
+        th{ background: #1a2980; color: white; padding: 10px; text-align: left; }
+        td{ padding: 10px; border-bottom: 1px solid #eee; }
+        tr:nth-child(even){ background: #f8f9ff; }
+        .btn-link{
+            display: inline-block; margin-top: 20px;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white; padding: 12px 24px; border-radius: 10px; text-decoration: none;
+        }
+        .empty{ text-align: center; color: #777; padding: 40px 0; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>📋 All Registered Students</h2>
+
+    {% if students %}
+    <table>
+        <tr>
+            <th>Name</th><th>Email</th><th>Department</th><th>Course</th><th>CGPA</th><th>City</th>
+        </tr>
+        {% for s in students %}
+        <tr>
+            <td>{{ s.name }}</td>
+            <td>{{ s.email }}</td>
+            <td>{{ s.department }}</td>
+            <td>{{ s.course }}</td>
+            <td>{{ s.cgpa }}</td>
+            <td>{{ s.city }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p class="empty">No students registered yet.</p>
+    {% endif %}
+
+    <a href="/" class="btn-link">← Back to Dashboard</a>
+</div>
+</body>
+</html>
