@@ -4,7 +4,7 @@ import json
 import os
 
 app = Flask(__name__)
-app.secret_key = "change_this_to_something_random"
+app.secret_key = os.environ.get("SECRET_KEY", "dev-secret")
 
 USERS_FILE = "users.json"
 
@@ -240,5 +240,8 @@ def predict_package():
 
     return render_template('predict_package.html', result=result, cgpa=cgpa)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 5000)),
+        debug=False)
