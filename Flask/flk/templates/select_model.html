@@ -36,19 +36,6 @@
             margin-bottom: 20px;
             font-size: 14px;
         }
-        .package-link{
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        .package-link a{
-            background: linear-gradient(135deg, #43e97b, #38f9d7);
-            color: #063;
-            padding: 10px 20px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-block;
-        }
         .tabs{
             display: flex;
             gap: 10px;
@@ -154,14 +141,9 @@
 </head>
 <body>
 <div class="container">
-    <h2>🎓 Select a Model to Predict Placement</h2>
-    <p class="subtitle">Each model is trained on CGPA data — compare accuracy and pick one to predict</p>
-
-    <div style="text-align:center; margin-bottom:20px;">
-        <a href="/predict-package" style="background: linear-gradient(135deg, #43e97b, #38f9d7); color:#063; padding:10px 20px; border-radius:10px; text-decoration:none; font-weight:bold;">
-            💰 Also try: Predict Expected Package (Linear Regression)
-        </a>
-    </div>
+    <a href="/" style="color:#1a2980; text-decoration:none; font-weight:bold; font-size:14px;">← Back to Dashboard</a>
+    <h2 style="margin-top:15px;">🎓 Select a Model to Predict Placement</h2>
+    <p class="subtitle">Each model is trained on CGPA data - compare accuracy and pick one to predict</p>
 
     <div class="tabs">
         <button class="tab-btn active" onclick="showTab('manual')">✍️ Manual Entry</button>

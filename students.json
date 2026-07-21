@@ -1,0 +1,27 @@
+[
+  {
+    "name": "welcome",
+    "email": "welcome@gmail.com",
+    "mobile": "8888855555",
+    "alternate_mobile": "08122815846",
+    "date_of_birth": "2000-01-23",
+    "age": "25",
+    "gender": "Male",
+    "city": "Chennai",
+    "state": "Tamilnadu",
+    "country": "India",
+    "pincode": "600049",
+    "qualification": "BE",
+    "college": "www",
+    "department": "ece",
+    "course": "data analysis",
+    "year": "2026",
+    "cgpa": "7",
+    "languages": "English, Hindi, Tamil",
+    "skills": "SQL, Python",
+    "blood_group": "A+",
+    "emergency_contact": "6666789432",
+    "guardian_name": "Saachi",
+    "registered_by": "welcome"
+  }
+]
